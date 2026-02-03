@@ -2,7 +2,8 @@
 
 
 # --- Imports ---
-from encryption import Encrypt
+from encrypt_decrypt import Encrypt
+from encrypt_decrypt import Decrypt
 
 # --- Functions ---
 
@@ -28,8 +29,8 @@ def menu():
     return menu_choice
 
 
-def EncryptAlgorithmChoice():
-    ''' Display the encryption algorithm choices to the user'''
+def EncryptDecryptAlgorithmChoice():
+    ''' presents the encryption algorithm choices to the user'''
 
     print('Choose an encryption algorithm:')
     print('1. Caesar Cipher')
@@ -53,21 +54,43 @@ def EncryptRouter(algo_choice):
 
         message = input('Enter the message to encrypt: ')
         shift = int(input('Enter the shift value: '))
-
         print (f'algorithm: {algo_choice}, \nmessage: {message}, \nshift: {shift}')
 
         encrypted_message = Encrypt().caesar_cipher(message, shift)
         print('')
         print(f'Encrypted message: {encrypted_message}')
+        print('')
+
+
+def DecryptRouter(algo_choice):
+    ''' Direct user to wanted decryption algorithm'''
+
+    if algo_choice == 'caesar cipher':
+
+        message = input('Enter the message to decrypt: ')
+        shift = int(input('Enter the shift value: '))
+        print (f'algorithm: {algo_choice}, \nmessage: {message}, \nshift: {shift}')
+
+        decrypted_message = Decrypt().caesar_cipher(message, shift)
+        print('')
+        print(f'Decrypted message: {decrypted_message}')
+        print('')
 
 
 def main():
+    ''' main function to run the program '''
+
     while True:
         task = menu()
+
         if task == 'encrypt':
-            EncryptRouter(EncryptAlgorithmChoice())
+            EncryptRouter(EncryptDecryptAlgorithmChoice())
+
+        elif task == 'decrypt':
+            DecryptRouter(EncryptDecryptAlgorithmChoice())
+
         else:
-            print('Nope not allowed to do that yet')
+            quit()
 
 
 main()
