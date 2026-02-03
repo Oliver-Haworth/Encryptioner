@@ -29,16 +29,18 @@ def menu():
     return menu_choice
 
 
-def EncryptDecryptAlgorithmChoice():
+def AlgorithmChoice():
     ''' presents the encryption algorithm choices to the user'''
 
     print('Choose an encryption algorithm:')
     print('1. Caesar Cipher')
+    print('2. Custom Algorithm (XOR-based, educational only)')
 
     algo_choice = int(input('Enter your choice (1-3): '))
 
     translate = {
         1: 'caesar cipher',
+        2: 'custom algorithm',
 
     }
 
@@ -61,6 +63,13 @@ def EncryptRouter(algo_choice):
         print(f'Encrypted message: {encrypted_message}')
         print('')
 
+    elif algo_choice == 'custom algorithm':
+        message = input('Enter the message to encrypt: ')
+        encrypted_message, key = Encrypt().custom_algorithm(message)
+        print(f'Encrypted message: {encrypted_message}')
+        print(f'Private key (keep this safe!): {key.hex()}')
+
+
 
 def DecryptRouter(algo_choice):
     ''' Direct user to wanted decryption algorithm'''
@@ -75,6 +84,15 @@ def DecryptRouter(algo_choice):
         print('')
         print(f'Decrypted message: {decrypted_message}')
         print('')
+    
+    elif algo_choice == 'custom algorithm':
+        message = input('Enter the message to decrypt: ')
+        key_hex = input('Enter the private key used for encryption (hex): ')
+        key = bytes.fromhex(key_hex)
+
+        decrypted_message = Decrypt().custom_algorithm(message, key)
+        print(f'Decrypted message: {decrypted_message}')
+
 
 
 def main():
@@ -84,13 +102,14 @@ def main():
         task = menu()
 
         if task == 'encrypt':
-            EncryptRouter(EncryptDecryptAlgorithmChoice())
+            EncryptRouter(AlgorithmChoice())
 
         elif task == 'decrypt':
-            DecryptRouter(EncryptDecryptAlgorithmChoice())
+            DecryptRouter(AlgorithmChoice())
 
         else:
             quit()
 
 
-main()
+if __name__ == "__main__":
+    main()
